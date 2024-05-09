@@ -104,7 +104,7 @@ body {
   cursor: pointer;
 }
 
-.calc-container button:hover {
+.calc-container button:hover   {
     background-color: rgb(30, 68, 219); /* New background color on hover */
     transform: translateY(-2px); /* Move up by 3 pixels on hover */
   }
