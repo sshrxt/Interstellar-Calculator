@@ -34,6 +34,7 @@ function addEventListeners() {
         addFirstDisplay(button.value);
       } else {
         lockedOperator = true;
+        header.textContent = displayValue + " " + operatorValue;
         addSecondDisplay(button.value);
       }
     });
@@ -44,6 +45,7 @@ function addOperatorListeners() {
   const operators = document.querySelectorAll(".op");
   operators.forEach((op) => {
     op.addEventListener("click", () => {
+      header.textContent = displayValue;
       if (lockedOperator) {
         zeroOperators = true;
       }
@@ -58,6 +60,7 @@ function addOperatorListeners() {
       } else {
         console.log(op.value);
         if (lockedOperator) {
+          header.textContent += " " + operatorValue;
           findResult(
             operate(
               operatorValue,
@@ -93,7 +96,7 @@ function addEqualListener() {
       displayDiv.textContent = "Error";
     }
     zeroOperators = false;
-    lockedOperator = false;~
+    lockedOperator = false;
   });
 }
 
@@ -113,9 +116,43 @@ function addSecondDisplay(value) {
 
 function findResult(value) {
   //console.log(displayValue + operatorValue + secondDisplayValue);
+  header.textContent =
+    displayValue + " " + operatorValue + " " + secondDisplayValue + " =";
   displayValue = value;
   displayDiv.textContent = displayValue;
   secondDisplayValue = "";
+}
+
+function addClearListener() {
+  const clear = document.querySelector("#clear");
+
+  clear.addEventListener("click", () => {
+    displayValue = "0";
+    operatorValue = "";
+    secondDisplayValue = "";
+    operatorPressed = false;
+    operatorSwitch = false;
+    zeroOperators = false;
+    lockedOperator = false;
+    header.textContent = "";
+    displayDiv.textContent = 0;
+  });
+}
+
+function addDeleteListener() {
+  const del = document.querySelector("#delete");
+  
+  del.addEventListener("click", ()=> {
+    if(!lockedOperator) {
+      displayValue = displayValue.slice(0, -1);
+      displayDiv.textContent = displayValue;  
+    }
+    else {
+      secondDisplayValue = secondDisplayValue.slice(0, -1);
+      displayDiv.textContent = secondDisplayValue;
+      console.log(secondDisplayValue);
+    }
+  });
 }
 
 let numOne;
@@ -130,15 +167,14 @@ let operatorSwitch = false;
 let zeroOperators = false;
 let lockedOperator = false;
 
+const header = document.querySelector(".display-container h5");
+header.textContent = "";
+
 const displayDiv = document.querySelector(".display-container h1");
 displayDiv.textContent = displayValue;
-
-const btn = document.querySelector("#clear");
-
-btn.addEventListener("click", () => {
-  alert("hey");
-});
 
 addEventListeners();
 addOperatorListeners();
 addEqualListener();
+addClearListener();
+addDeleteListener();
