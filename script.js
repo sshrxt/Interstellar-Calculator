@@ -64,8 +64,8 @@ function addOperatorListeners() {
           findResult(
             operate(
               operatorValue,
-              parseInt(displayValue),
-              parseInt(secondDisplayValue)
+              parseFloat(displayValue),
+              parseFloat(secondDisplayValue)
             )
           );
           zeroOperators = false;
@@ -88,8 +88,8 @@ function addEqualListener() {
       findResult(
         operate(
           operatorValue,
-          parseInt(displayValue),
-          parseInt(secondDisplayValue)
+          parseFloat(displayValue),
+          parseFloat(secondDisplayValue)
         )
       );
     } else {
@@ -141,16 +141,20 @@ function addClearListener() {
 
 function addDeleteListener() {
   const del = document.querySelector("#delete");
-  
-  del.addEventListener("click", ()=> {
-    if(!lockedOperator) {
+
+  del.addEventListener("click", () => {
+    if (!lockedOperator) {
       displayValue = displayValue.slice(0, -1);
-      displayDiv.textContent = displayValue;  
-    }
-    else {
-      secondDisplayValue = secondDisplayValue.slice(0, -1);
-      displayDiv.textContent = secondDisplayValue;
+      displayDiv.textContent = displayValue;
+    } else {
       console.log(secondDisplayValue);
+      if (secondDisplayValue.length === 1) {
+        secondDisplayValue = "0";
+        displayDiv.textContent = secondDisplayValue;
+      } else {
+        secondDisplayValue = secondDisplayValue.slice(0, -1);
+        displayDiv.textContent = secondDisplayValue;
+      }
     }
   });
 }
@@ -158,7 +162,6 @@ function addDeleteListener() {
 let numOne;
 let operator;
 let numTwo;
-
 let displayValue = "0";
 let operatorValue = "";
 let secondDisplayValue = "";
